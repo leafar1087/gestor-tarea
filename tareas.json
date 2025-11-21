@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "titulo": "ir a municipalidad",
+    "descripcion": "prueba flask",
+    "completada": true,
+    "fecha_creacion": "2025-10-21T13:16:35.664667",
+    "fecha_modificacion": "2025-10-21T17:28:04.308012"
+  },
+  {
+    "id": 2,
+    "titulo": "almorzar con gatita",
+    "descripcion": "despues de municipalidad",
+    "completada": true,
+    "fecha_creacion": "2025-10-21T13:17:02.078389",
+    "fecha_modificacion": "2025-10-21T17:28:10.210565"
+  },
+  {
+    "id": 3,
+    "titulo": "ver agenda gatita",
+    "descripcion": "",
+    "completada": true,
+    "fecha_creacion": "2025-10-21T17:28:00.111484",
+    "fecha_modificacion": "2025-11-21T09:51:35.389960"
+  },
+  {
+    "id": 4,
+    "titulo": "ir a paradero ECI",
+    "descripcion": "",
+    "completada": false,
+    "fecha_creacion": "2025-11-21T09:51:26.968173",
+    "fecha_modificacion": "2025-11-21T09:51:26.968189"
+  }
+]

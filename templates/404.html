@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Página no encontrada - Gestor de Tareas{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <div class="error-template">
+            <h1 class="display-1 text-primary">404</h1>
+            <h2 class="mb-4">
+                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                Página no encontrada
+            </h2>
+            <div class="error-details mb-4">
+                <p class="lead">Lo sentimos, la página que buscas no existe.</p>
+                <p class="text-muted">Puede que la URL esté mal escrita o la página haya sido movida.</p>
+            </div>
+            <div class="error-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home me-2"></i>Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

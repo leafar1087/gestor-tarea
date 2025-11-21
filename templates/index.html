@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - Gestor de Tareas{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h1 class="display-4 text-primary">
+                <i class="fas fa-tasks"></i> Gestor de Tareas
+            </h1>
+            <p class="lead">Organiza y gestiona tus tareas de manera eficiente</p>
+        </div>
+
+        <!-- Formulario para agregar tarea -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-plus-circle me-2"></i>Agregar Nueva Tarea
+                </h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('agregar_tarea') }}">
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="titulo" class="form-label">Título de la tarea *</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" 
+                                   placeholder="Ej: Completar informe mensual" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion" 
+                                   placeholder="Descripción opcional">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i>Agregar Tarea
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de tareas -->
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-list me-2"></i>Mis Tareas
+                    <span class="badge bg-light text-dark ms-2">{{ tareas|length }}</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if tareas %}
+                    <div class="row">
+                        {% for tarea in tareas %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 {% if tarea.completada %}border-success{% else %}border-warning{% endif %}">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">
+                                            <h6 class="card-title {% if tarea.completada %}text-decoration-line-through text-muted{% endif %}">
+                                                {{ tarea.titulo }}
+                                            </h6>
+                                            {% if tarea.descripcion %}
+                                                <p class="card-text text-muted small">{{ tarea.descripcion }}</p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                                    type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                {% if not tarea.completada %}
+                                                    <li>
+                                                        <a class="dropdown-item text-success" 
+                                                           href="{{ url_for('completar_tarea', tarea_id=tarea.id) }}">
+                                                            <i class="fas fa-check me-1"></i>Marcar como completada
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                <li>
+                                                    <a class="dropdown-item text-danger" 
+                                                       href="{{ url_for('eliminar_tarea', tarea_id=tarea.id) }}"
+                                                       onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">
+                                                        <i class="fas fa-trash me-1"></i>Eliminar
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% if tarea.completada %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>Completada
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-clock me-1"></i>Pendiente
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No tienes tareas aún</h5>
+                        <p class="text-muted">¡Agrega tu primera tarea usando el formulario de arriba!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        {% if tareas %}
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary" id="total-tareas">{{ tareas|length }}</h5>
+                        <p class="card-text">Total de tareas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-success" id="completadas">
+                            {{ tareas|selectattr('completada')|list|length }}
+                        </h5>
+                        <p class="card-text">Completadas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning" id="pendientes">
+                            {{ tareas|rejectattr('completada')|list|length }}
+                        </h5>
+                        <p class="card-text">Pendientes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
